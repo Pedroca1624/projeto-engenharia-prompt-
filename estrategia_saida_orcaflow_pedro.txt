@@ -1,0 +1,46 @@
+ESTRATÉGIA DE CONTINUIDADE E SOBERANIA DE DADOS — ORCAFLOW
+Disciplina: Engenharia de Software e Aplicações Low-Code
+Estudante: Pedro Moraes Cunha
+Data: 15/05/2026
+
+---
+
+ANÁLISE DE RISCO: DEPENDÊNCIA TECNOLÓGICA (VENDOR LOCK-IN)
+
+Identificou-se que o modelo de operação do Bubble.io retém o código-fonte proprietário, o que configura um risco de 'Vendor Lock-in'. Para proteger a viabilidade do OrcaFlow a longo prazo frente a mudanças de precificação ou descontinuidade da plataforma, estabeleceu-se um protocolo de extração técnica de ativos.
+
+---
+
+PROTOCOLO DE MITIGAÇÃO E EXTRAÇÃO
+
+A solução para garantir a portabilidade reside na ativação e configuração da 'Data API' do ecossistema Bubble (Settings > API). Foram selecionadas para exposição programática as entidades fundamentais do negócio:
+- Cliente (Client)
+- Orçamento (Quote)
+- Itens do Orçamento (QuoteItem)
+
+A extração de dados será realizada via requisições REST (método GET) com payload em formato JSON, utilizando os endpoints estruturados da aplicação:
+
+  https://orcaflow-app.bubbleapps.io/api/1.1/obj/client
+  https://orcaflow-app.bubbleapps.io/api/1.1/obj/quote
+  https://orcaflow-app.bubbleapps.io/api/1.1/obj/quoteitem
+
+A segurança do tráfego de dados durante a exportação é garantida por 'Bearers Tokens' (API Keys) gerados dinamicamente no painel administrativo, restringindo o acesso apenas a scripts de migração autorizados.
+
+---
+
+ARQUITETURA ALVO PARA MIGRAÇÃO (REPLATFORMING)
+
+Em caso de execução da estratégia de saída, o OrcaFlow será reconstruído em uma stack de código aberto (Open Source) para garantir independência total:
+
+  - Camada de Dados: PostgreSQL (implementando o modelo relacional e ENUMs para Status).
+  - Camada de Backend: Node.js + NestJS ou Express para lógica de negócio robusta.
+  - Camada de Frontend: React.js com Next.js para interface responsiva e SEO.
+  - Camada de Persistência: Prisma ORM para garantir a integridade das Foreign Keys.
+
+O mapeamento relacional (1:N) entre Usuário, Cliente e Itens será preservado integralmente, garantindo que a lógica de negócio desenvolvida na fase no-code seja reaproveitada na nova arquitetura.
+
+---
+
+CONSIDERAÇÕES FINAIS
+
+Este planejamento assegura que a inteligência de dados do sistema OrcaFlow seja tratada como um ativo independente da infraestrutura de execução. A estratégia garante a governança da informação e a resiliência operacional do projeto, eliminando perdas de dados em cenários de transição tecnológica.
